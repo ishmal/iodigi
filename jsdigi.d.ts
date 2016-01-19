@@ -1,5 +1,5 @@
 
-declare module "digi" {
+declare module "jsdigi" {
 
     /**
      * Interface for a text output widget, which the UI should overload
