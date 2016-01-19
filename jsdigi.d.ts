@@ -94,8 +94,6 @@ declare module Jsdigi {
 
 }
 
-declare var jsdigi: Jsdigi;
-
-declare module "jsdigi" {
-	export = jsdigi;
+declare module 'jsdigi' {
+	export = Jsdigi;
 }
