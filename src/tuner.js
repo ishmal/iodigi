@@ -60,6 +60,9 @@ class Tuner {
 class TunerImpl extends Tuner {
 
     constructor(par, canvas) {
+    
+      super();
+    	
       window.requestAnimationFrame =
           window.requestAnimationFrame ||
           window.msRequestAnimationFrame ||

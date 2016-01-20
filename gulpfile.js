@@ -1,56 +1,37 @@
-var gulp = require('gulp');
-var gutil = require("gulp-util");
-var rimraf = require('rimraf');
-var webpack = require('webpack');
-var jshint = require('gulp-jshint');
+const gulp = require('gulp');
+const rimraf = require('rimraf');
+const jshint = require('gulp-jshint');
+const babel = require('gulp-babel');
+const mocha = require('gulp-mocha');
+const Server = require('karma').Server;
 
- 
 gulp.task('lint', function() {
-  return gulp.src('./src/lib/*.js')
+  return gulp.src('./src/**/*.js')
     .pipe(jshint({esnext: true}))
     .pipe(jshint.reporter('default'));
 });
 
-
-gulp.task("webpack", function(callback) {
-
-    var config = {
-        context: __dirname + "/src",
-        entry: './digi',
-        target: 'node',
-        output: {
-            path: __dirname,
-            filename: 'index.js',
-            library: true,
-            libraryTarget: 'commonjs2'
-        },
-        module: {
-            loaders: [
-                {
-                    test: /\.js$/,
-                    loader: 'babel-loader',
-                    query: {
-                        plugins: ['transform-runtime'],
-                        presets: [ 'es2015' ]
-                    }
-                }
-            ]
-        }
+gulp.task('babel', function () {
+    const opts = {
+        "presets": ["es2015"]
     };
-
-    webpack(config, function(err, stats) {
-        if(err) throw new gutil.PluginError("webpack", err);
-        gutil.log("[webpack]", stats.toString({
-            // output options
-        }));
-        callback();
-    });
-
+    return gulp.src('src/**/*.js')
+        .pipe(babel(opts))
+        .pipe(gulp.dest('lib'));
 });
 
+/**
+ * Run test once and exit
+ */
+gulp.task('test', function (done) {
+  new Server({
+    configFile: __dirname + '/karma.conf.js',
+    singleRun: true
+  }, done).start();
+});
 
 gulp.task('clean', function(cb) {
-  rimraf("./index.js", { force: true }, cb);
+  rimraf("./lib", { force: true }, cb);
 });
 
-gulp.task('default', ['webpack']);
+gulp.task('default', ['lint', 'babel', 'test']);
