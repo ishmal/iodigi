@@ -1,6 +1,4 @@
 
-declare module Jsdigi {
-
     /**
      * Interface for a text output widget, which the UI should overload
      */
@@ -23,7 +21,7 @@ declare module Jsdigi {
 
     }
 
-    export interface Tuner {
+    export class Tuner {
 
     }
 
@@ -31,7 +29,7 @@ declare module Jsdigi {
     /**
      * This is the top-level GUI-less app.  Extend this with a GUI.
      */
-    export interface Digi {
+    export class Digi {
 
 
         constructor();
@@ -92,8 +90,5 @@ declare module Jsdigi {
 
     } //Digi
 
-}
 
-declare module 'jsdigi' {
-	export = Jsdigi;
-}
+
